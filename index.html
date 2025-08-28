@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>掷硬币游戏</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 登录页面 -->
+    <div class="login-container" id="loginContainer">
+        <div class="login-box">
+            <h1>🎯 掷硬币游戏</h1>
+            <p>请先登录才能开始游戏</p>
+            
+            <form class="login-form" id="loginForm">
+                <div class="input-group">
+                    <label for="username">用户名:</label>
+                    <input type="text" id="username" name="username" required placeholder="请输入用户名">
+                </div>
+                
+                <div class="input-group">
+                    <label for="password">密码:</label>
+                    <input type="password" id="password" name="password" required placeholder="请输入密码">
+                </div>
+                
+                <button type="submit" class="login-btn">登录</button>
+            </form>
+            
+            <div class="switch-form">
+                <p>还没有账号？ <a href="#" onclick="showRegister()">立即注册</a></p>
+            </div>
+            
+            <div class="demo-accounts">
+                <p>演示账号:</p>
+                <div class="demo-buttons">
+                    <button class="demo-btn" onclick="fillDemoAccount('player1', '123456')">玩家1 (123456)</button>
+                    <button class="demo-btn" onclick="fillDemoAccount('player2', '123456')">玩家2 (123456)</button>
+                </div>
+            </div>
+            
+            <div class="error-message" id="errorMessage"></div>
+        </div>
+    </div>
+
+    <!-- 注册页面 -->
+    <div class="login-container" id="registerContainer" style="display: none;">
+        <div class="login-box">
+            <h1>🎯 掷硬币游戏</h1>
+            <p>创建新账号开始游戏</p>
+            
+            <form class="login-form" id="registerForm">
+                <div class="input-group">
+                    <label for="regUsername">用户名:</label>
+                    <input type="text" id="regUsername" name="username" required placeholder="请输入用户名" minlength="3" maxlength="20">
+                </div>
+                
+                <div class="input-group">
+                    <label for="regEmail">邮箱:</label>
+                    <input type="email" id="regEmail" name="email" required placeholder="请输入邮箱地址">
+                </div>
+                
+                <div class="input-group">
+                    <label for="regPassword">密码:</label>
+                    <input type="password" id="regPassword" name="password" required placeholder="请输入密码" minlength="6">
+                </div>
+                
+                <div class="input-group">
+                    <label for="regConfirmPassword">确认密码:</label>
+                    <input type="password" id="regConfirmPassword" name="confirmPassword" required placeholder="请再次输入密码">
+                </div>
+                
+                <button type="submit" class="login-btn">注册</button>
+            </form>
+            
+            <div class="switch-form">
+                <p>已有账号？ <a href="#" onclick="showLogin()">立即登录</a></p>
+            </div>
+            
+            <div class="error-message" id="registerErrorMessage"></div>
+        </div>
+    </div>
+
+    <!-- 游戏页面 -->
+    <div class="container" id="gameContainer" style="display: none;">
+        <div class="user-info">
+            <span>欢迎, <strong id="currentUser"></strong>!</span>
+            <div class="user-actions">
+                <button class="sync-btn" onclick="syncData()" title="同步数据到云端">🔄 同步</button>
+                <button class="logout-btn" onclick="logout()">退出登录</button>
+            </div>
+        </div>
+        
+        <h1>掷硬币游戏</h1>
+        <p>点击硬币开始游戏！</p>
+        
+        <div class="coin-container">
+            <div class="coin" id="coin">
+                <div class="coin-side front">
+                    <span>正</span>
+                </div>
+                <div class="coin-side back">
+                    <span>反</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="result" id="result">
+            <p>点击硬币开始游戏</p>
+        </div>
+        
+        <div class="stats">
+            <p>正面: <span id="heads-count">0</span></p>
+            <p>反面: <span id="tails-count">0</span></p>
+        </div>
+        
+        <!-- 游戏历史记录 -->
+        <div class="game-history">
+            <h3>🎯 游戏历史</h3>
+            <div class="history-summary" id="historySummary">
+                <p>欢迎新玩家！开始你的第一次游戏吧！</p>
+            </div>
+            <div class="history-list" id="historyList">
+                <!-- 历史记录将在这里显示 -->
+            </div>
+        </div>
+        
+        <!-- AI智能分析 -->
+        <div class="ai-analysis" id="aiAnalysis" style="display: none;">
+            <h3>🤖 AI智能分析</h3>
+            <div class="ai-controls">
+                <button class="ai-btn" onclick="analyzeGamePattern()" id="analyzeBtn">
+                    🔍 分析游戏模式
+                </button>
+                <button class="ai-btn" onclick="predictNextResult()" id="predictBtn">
+                    🔮 预测下次结果
+                </button>
+                <button class="ai-btn" onclick="getGameInsights()" id="insightsBtn">
+                    💡 获取游戏洞察
+                </button>
+            </div>
+            <div class="ai-results" id="aiResults">
+                <div class="ai-loading" id="aiLoading" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <p>AI正在分析中...</p>
+                </div>
+                <div class="ai-content" id="aiContent">
+                    <p>点击上方按钮开始AI分析</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
