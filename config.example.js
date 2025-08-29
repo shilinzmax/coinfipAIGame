@@ -1,5 +1,5 @@
-// 本地配置文件模板
-// 复制这个文件为 config.local.js 并填入真实的API密钥
+// 配置文件示例 - 用于管理API密钥
+// 复制这个文件为 config.js 并填入真实的API密钥
 
 window.API_CONFIG = {
     // OpenAI API密钥 - 从 https://platform.openai.com/api-keys 获取
@@ -16,7 +16,6 @@ window.API_CONFIG = {
 };
 
 // 使用说明：
-// 1. 复制这个文件为 config.local.js
-// 2. 在 config.local.js 中填入真实的API密钥
-// 3. 在 index.html 中引入 config.local.js 而不是 config.js
-// 4. 将 config.local.js 添加到 .gitignore（已经添加了）
+// 1. 复制这个文件为 config.js
+// 2. 在 config.js 中填入真实的API密钥
+// 3. 确保 config.js 在 .gitignore 中（已经添加了）

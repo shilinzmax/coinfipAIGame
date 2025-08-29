@@ -6,23 +6,22 @@
 ## 📁 文件结构
 
 ```
-├── config.js                 # 默认配置文件（包含占位符）
-├── config.local.js.template  # 本地配置文件模板
-├── config.local.js          # 本地配置文件（需要创建，包含真实密钥）
-├── .gitignore               # Git忽略文件（保护敏感信息）
-└── index.html               # 主页面（引入配置文件）
+├── config.example.js        # 配置文件示例（包含占位符）
+├── config.js               # 本地配置文件（需要创建，包含真实密钥）
+├── .gitignore              # Git忽略文件（保护敏感信息）
+└── index.html              # 主页面（引入配置文件）
 ```
 
 ## 🚀 设置步骤
 
 ### 1. 创建本地配置文件
 ```bash
-# 复制模板文件
-cp config.local.js.template config.local.js
+# 复制示例文件
+cp config.example.js config.js
 ```
 
 ### 2. 编辑本地配置文件
-打开 `config.local.js` 并填入真实的API密钥：
+打开 `config.js` 并填入真实的API密钥：
 
 ```javascript
 window.API_CONFIG = {
@@ -65,9 +64,9 @@ window.API_CONFIG = {
 ## 🔒 安全说明
 
 ### ✅ 安全做法
-- ✅ `config.local.js` 已添加到 `.gitignore`
+- ✅ `config.js` 已添加到 `.gitignore`
 - ✅ 不会提交到远程仓库
-- ✅ 使用模板文件作为示例
+- ✅ 使用示例文件作为模板
 
 ### ❌ 避免的做法
 - ❌ 不要在代码中硬编码API密钥
@@ -110,7 +109,7 @@ const AI_CONFIG = {
 
 ### 问题：API密钥未加载
 **解决方案：**
-1. 检查 `config.local.js` 是否存在
+1. 检查 `config.js` 是否存在
 2. 检查文件路径是否正确
 3. 检查浏览器控制台是否有错误
 
