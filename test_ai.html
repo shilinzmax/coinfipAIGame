@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI分析测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1e293b;
+            color: #e2e8f0;
+        }
+        .test-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #2563eb;
+        }
+        .result {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>🤖 AI分析功能测试</h1>
+    
+    <div class="test-section">
+        <h2>测试AI分析功能</h2>
+        <button onclick="testMockAnalysis()">测试Mock分析</button>
+        <button onclick="testTransformersAnalysis()">测试Transformers分析</button>
+        <button onclick="testPrediction()">测试预测功能</button>
+        <div id="result" class="result">等待测试...</div>
+    </div>
+
+    <script>
+        // 模拟用户数据
+        const mockUser = {
+            username: 'testuser',
+            gameStats: {
+                totalFlips: 10,
+                headsCount: 6,
+                tailsCount: 4
+            },
+            gameHistory: [
+                { result: '正面', timestamp: '2024-01-01T10:00:00Z' },
+                { result: '反面', timestamp: '2024-01-01T10:01:00Z' },
+                { result: '正面', timestamp: '2024-01-01T10:02:00Z' },
+                { result: '正面', timestamp: '2024-01-01T10:03:00Z' },
+                { result: '反面', timestamp: '2024-01-01T10:04:00Z' }
+            ]
+        };
+
+        // 模拟AI配置
+        const AI_CONFIG = {
+            backend: 'mock'
+        };
+
+        // 模拟getMockAnalysis函数
+        async function getMockAnalysis(analysisType) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            const responses = {
+                pattern: {
+                    type: 'pattern',
+                    content: '这是模式分析的结果：你的游戏模式显示...'
+                },
+                prediction: {
+                    prediction: '正面',
+                    confidence: 75,
+                    reasoning: '基于历史数据分析',
+                    details: '最近正面出现较多'
+                },
+                insights: {
+                    type: 'insights',
+                    content: '这是洞察分析的结果：建议你...'
+                }
+            };
+            
+            return responses[analysisType] || responses.pattern;
+        }
+
+        // 模拟callAI函数
+        async function callAI(prompt, analysisType) {
+            console.log('callAI被调用:', { prompt, analysisType, backend: AI_CONFIG.backend });
+            
+            switch (AI_CONFIG.backend) {
+                case 'mock':
+                    return await getMockAnalysis(analysisType);
+                default:
+                    throw new Error('未知的后端类型');
+            }
+        }
+
+        // 模拟performAIAnalysis函数
+        async function performAIAnalysis(analysisType, buttonText) {
+            try {
+                console.log('开始AI分析:', { analysisType, buttonText });
+                
+                const prompt = `分析类型: ${analysisType}`;
+                const result = await callAI(prompt, analysisType);
+                
+                console.log('AI分析结果:', result);
+                return result;
+                
+            } catch (error) {
+                console.error('AI分析失败:', error);
+                throw error;
+            }
+        }
+
+        async function testMockAnalysis() {
+            try {
+                document.getElementById('result').textContent = '测试中...';
+                const result = await performAIAnalysis('pattern', '测试模式分析');
+                document.getElementById('result').textContent = '成功: ' + JSON.stringify(result, null, 2);
+            } catch (error) {
+                document.getElementById('result').textContent = '失败: ' + error.message;
+            }
+        }
+
+        async function testTransformersAnalysis() {
+            try {
+                // 切换到transformers模式
+                AI_CONFIG.backend = 'transformers';
+                document.getElementById('result').textContent = '测试Transformers.js...';
+                
+                // 这里会失败，因为Transformers.js没有加载
+                const result = await performAIAnalysis('pattern', '测试Transformers分析');
+                document.getElementById('result').textContent = '成功: ' + JSON.stringify(result, null, 2);
+            } catch (error) {
+                document.getElementById('result').textContent = 'Transformers失败: ' + error.message;
+                // 切换回mock模式
+                AI_CONFIG.backend = 'mock';
+            }
+        }
+
+        async function testPrediction() {
+            try {
+                document.getElementById('result').textContent = '测试预测功能...';
+                const result = await performAIAnalysis('prediction', '测试预测');
+                document.getElementById('result').textContent = '预测结果: ' + JSON.stringify(result, null, 2);
+            } catch (error) {
+                document.getElementById('result').textContent = '预测失败: ' + error.message;
+            }
+        }
+
+        console.log('测试页面加载完成');
+    </script>
+</body>
+</html>

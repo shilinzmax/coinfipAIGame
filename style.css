@@ -201,6 +201,83 @@ body {
     gap: 10px;
 }
 
+/* 幸运数字样式 */
+.lucky-number-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 15px;
+    padding: 8px 12px;
+    background: rgba(34, 197, 94, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.lucky-number-section label {
+    color: #22c55e;
+    font-weight: bold;
+    font-size: 0.9em;
+    white-space: nowrap;
+}
+
+.lucky-number-section select {
+    padding: 4px 8px;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.lucky-number-section select:focus {
+    outline: none;
+    border-color: #22c55e;
+    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+}
+
+.lucky-number-section select option {
+    background: #1e293b;
+    color: #e2e8f0;
+}
+
+.lucky-status {
+    font-size: 0.8em;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.lucky-status.inactive {
+    background: rgba(148, 163, 184, 0.2);
+    color: #94a3b8;
+}
+
+.lucky-status.active {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+    animation: pulse 2s infinite;
+}
+
+.lucky-status.triggered {
+    background: rgba(251, 191, 36, 0.2);
+    color: #fbbf24;
+    animation: glow 1s ease-in-out;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+@keyframes glow {
+    0% { box-shadow: 0 0 5px rgba(251, 191, 36, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.8); }
+    100% { box-shadow: 0 0 5px rgba(251, 191, 36, 0.5); }
+}
+
 .sync-btn {
     padding: 8px 16px;
     background: rgba(59, 130, 246, 0.8);
@@ -450,6 +527,42 @@ p {
     color: #94a3b8;
 }
 
+/* 简化版游戏记录样式 */
+.recent-games {
+    margin-top: 15px;
+}
+
+.recent-games h4 {
+    color: #e2e8f0;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.game-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    margin-bottom: 6px;
+    transition: all 0.3s ease;
+}
+
+.game-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.game-time {
+    color: #94a3b8;
+    font-size: 0.9em;
+}
+
+.game-result {
+    font-weight: bold;
+    font-size: 1em;
+}
+
 /* 滚动条样式 */
 .history-list::-webkit-scrollbar {
     width: 6px;
@@ -485,6 +598,207 @@ p {
     text-align: center;
     color: #a855f7;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* 模型选择器样式 */
+.model-selector {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.model-selector label {
+    display: block;
+    font-weight: bold;
+    color: #e2e8f0;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.model-selector select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid rgba(168, 85, 247, 0.3);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.model-selector select:focus {
+    outline: none;
+    border-color: #a855f7;
+    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.model-selector select option {
+    background: #1e293b;
+    color: #e2e8f0;
+    padding: 10px;
+}
+
+.model-description {
+    margin-top: 12px;
+    padding: 12px;
+    background: rgba(168, 85, 247, 0.1);
+    border-radius: 8px;
+    border-left: 4px solid #a855f7;
+}
+
+.model-description p {
+    margin: 0;
+    color: #cbd5e1;
+    font-size: 0.95em;
+    line-height: 1.4;
+}
+
+/* 预测结果显示样式 */
+.prediction-result {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.prediction-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.prediction-header h4 {
+    margin: 0;
+    color: #a855f7;
+    font-size: 1.3em;
+}
+
+.model-badge {
+    background: rgba(168, 85, 247, 0.2);
+    color: #a855f7;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.prediction-main {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.prediction-value {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin-bottom: 15px;
+    padding: 20px;
+    border-radius: 12px;
+    display: inline-block;
+    min-width: 200px;
+}
+
+.prediction-value.heads {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #1f2937;
+    box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+}
+
+.prediction-value.tails {
+    background: linear-gradient(135deg, #94a3b8, #64748b);
+    color: #f8fafc;
+    box-shadow: 0 4px 15px rgba(148, 163, 184, 0.3);
+}
+
+.confidence-bar {
+    position: relative;
+    background: rgba(255, 255, 255, 0.1);
+    height: 30px;
+    border-radius: 15px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.confidence-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #e2e8f0;
+    font-weight: bold;
+    font-size: 0.9em;
+    z-index: 2;
+}
+
+.confidence-fill {
+    height: 100%;
+    border-radius: 15px;
+    transition: width 0.8s ease;
+    position: relative;
+}
+
+.confidence-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.prediction-details {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #a855f7;
+}
+
+.prediction-details p {
+    margin: 8px 0;
+    color: #cbd5e1;
+    line-height: 1.5;
+}
+
+.prediction-details strong {
+    color: #e2e8f0;
+}
+
+/* 幸运模式分析样式 */
+.ai-lucky {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(251, 191, 36, 0.1));
+    border-left: 4px solid #22c55e;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+.ai-lucky h3 {
+    color: #22c55e;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.ai-lucky p {
+    margin: 8px 0;
+    line-height: 1.6;
+    color: #e2e8f0;
+}
+
+.ai-lucky strong {
+    color: #fbbf24;
+    font-weight: bold;
 }
 
 .ai-controls {

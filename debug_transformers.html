@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transformers.js 调试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1e293b;
+            color: #e2e8f0;
+        }
+        .test-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #2563eb;
+        }
+        .log {
+            background: #000;
+            color: #0f0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🤖 Transformers.js 调试工具</h1>
+    
+    <div class="test-section">
+        <h2>1. 加载Transformers.js</h2>
+        <button onclick="loadTransformers()">加载Transformers.js</button>
+        <div id="loadStatus">未加载</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. 测试文本生成</h2>
+        <button onclick="testTextGeneration()">测试文本生成</button>
+        <div id="textResult">等待测试...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. 测试游戏分析</h2>
+        <button onclick="testGameAnalysis()">测试游戏分析</button>
+        <div id="gameResult">等待测试...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. 控制台日志</h2>
+        <div id="consoleLog" class="log">等待日志...</div>
+    </div>
+
+    <script>
+        let logContainer = document.getElementById('consoleLog');
+        
+        // 重写console.log来显示在页面上
+        const originalLog = console.log;
+        const originalError = console.error;
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            logContainer.textContent += 'LOG: ' + args.join(' ') + '\n';
+            logContainer.scrollTop = logContainer.scrollHeight;
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            logContainer.textContent += 'ERROR: ' + args.join(' ') + '\n';
+            logContainer.scrollTop = logContainer.scrollHeight;
+        };
+        
+        async function loadTransformers() {
+            try {
+                console.log('开始加载Transformers.js...');
+                const statusDiv = document.getElementById('loadStatus');
+                statusDiv.textContent = '加载中...';
+                
+                if (typeof window.pipeline !== 'undefined') {
+                    statusDiv.textContent = '已加载';
+                    console.log('Transformers.js已经加载');
+                    return;
+                }
+                
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.2/dist/transformers.min.js';
+                
+                script.onload = () => {
+                    console.log('Transformers.js加载成功！');
+                    statusDiv.textContent = '加载成功';
+                };
+                
+                script.onerror = () => {
+                    console.error('Transformers.js加载失败');
+                    statusDiv.textContent = '加载失败';
+                };
+                
+                document.head.appendChild(script);
+                
+            } catch (error) {
+                console.error('加载Transformers.js时出错:', error);
+                document.getElementById('loadStatus').textContent = '加载出错: ' + error.message;
+            }
+        }
+        
+        async function testTextGeneration() {
+            try {
+                console.log('开始测试文本生成...');
+                const resultDiv = document.getElementById('textResult');
+                resultDiv.textContent = '测试中...';
+                
+                if (typeof window.pipeline === 'undefined') {
+                    resultDiv.textContent = '请先加载Transformers.js';
+                    return;
+                }
+                
+                const generator = await window.pipeline('text-generation', 'Xenova/distilbert-base-uncased');
+                console.log('模型加载成功');
+                
+                const result = await generator('Hello world', {
+                    max_length: 50,
+                    temperature: 0.7,
+                    do_sample: true
+                });
+                
+                console.log('文本生成结果:', result);
+                resultDiv.textContent = '成功: ' + JSON.stringify(result, null, 2);
+                
+            } catch (error) {
+                console.error('文本生成测试失败:', error);
+                document.getElementById('textResult').textContent = '失败: ' + error.message;
+            }
+        }
+        
+        async function testGameAnalysis() {
+            try {
+                console.log('开始测试游戏分析...');
+                const resultDiv = document.getElementById('gameResult');
+                resultDiv.textContent = '测试中...';
+                
+                if (typeof window.pipeline === 'undefined') {
+                    resultDiv.textContent = '请先加载Transformers.js';
+                    return;
+                }
+                
+                const generator = await window.pipeline('text-generation', 'Xenova/distilbert-base-uncased');
+                console.log('模型加载成功');
+                
+                const prompt = '分析掷硬币游戏：正面出现3次，反面出现2次，预测下次结果';
+                const result = await generator(prompt, {
+                    max_length: 100,
+                    temperature: 0.7,
+                    do_sample: true
+                });
+                
+                console.log('游戏分析结果:', result);
+                resultDiv.textContent = '成功: ' + JSON.stringify(result, null, 2);
+                
+            } catch (error) {
+                console.error('游戏分析测试失败:', error);
+                document.getElementById('gameResult').textContent = '失败: ' + error.message;
+            }
+        }
+        
+        // 页面加载时自动开始加载
+        window.onload = function() {
+            console.log('页面加载完成，开始调试...');
+            loadTransformers();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>幸运数字调试</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .debug-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        button { padding: 10px 15px; margin: 5px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .inactive { background-color: #f0f0f0; }
+        .active { background-color: #e8f5e8; }
+        .triggered { background-color: #fff3cd; }
+    </style>
+</head>
+<body>
+    <h1>🍀 幸运数字功能调试</h1>
+    
+    <div class="debug-section">
+        <h3>幸运数字设置</h3>
+        <label for="luckyNumber">选择幸运数字:</label>
+        <select id="luckyNumber">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+        <button onclick="updateLuckyNumber()">更新幸运数字</button>
+    </div>
+    
+    <div class="debug-section">
+        <h3>游戏历史模拟</h3>
+        <button onclick="addGame('正面')">添加正面结果</button>
+        <button onclick="addGame('反面')">添加反面结果</button>
+        <button onclick="clearHistory()">清空历史</button>
+        <div id="gameHistory"></div>
+    </div>
+    
+    <div class="debug-section">
+        <h3>幸运数字状态</h3>
+        <div id="luckyStatus" class="status inactive">未设置</div>
+        <button onclick="updateLuckyStatus()">刷新状态</button>
+    </div>
+    
+    <div class="debug-section">
+        <h3>调试信息</h3>
+        <div id="debugInfo"></div>
+    </div>
+
+    <script>
+        // 模拟用户数据
+        let user = {
+            username: 'testuser',
+            luckyNumber: 5,
+            gameHistory: []
+        };
+        
+        // DOM元素
+        const luckyNumberSelect = document.getElementById('luckyNumber');
+        const luckyStatus = document.getElementById('luckyStatus');
+        const gameHistoryDiv = document.getElementById('gameHistory');
+        const debugInfo = document.getElementById('debugInfo');
+        
+        // 更新幸运数字
+        function updateLuckyNumber() {
+            user.luckyNumber = parseInt(luckyNumberSelect.value);
+            updateLuckyStatus();
+            updateDebugInfo();
+        }
+        
+        // 添加游戏结果
+        function addGame(result) {
+            const game = {
+                id: Date.now(),
+                result: result,
+                timestamp: new Date().toISOString(),
+                playTime: new Date().toLocaleString('zh-CN')
+            };
+            user.gameHistory.unshift(game);
+            updateGameHistoryDisplay();
+            updateLuckyStatus();
+            updateDebugInfo();
+        }
+        
+        // 清空历史
+        function clearHistory() {
+            user.gameHistory = [];
+            updateGameHistoryDisplay();
+            updateLuckyStatus();
+            updateDebugInfo();
+        }
+        
+        // 更新游戏历史显示
+        function updateGameHistoryDisplay() {
+            gameHistoryDiv.innerHTML = user.gameHistory.map((game, index) => 
+                `<div>${index + 1}. ${game.result} (${game.playTime})</div>`
+            ).join('');
+        }
+        
+        // 更新幸运数字状态
+        function updateLuckyStatus() {
+            if (!user.luckyNumber) {
+                luckyStatus.textContent = '未设置';
+                luckyStatus.className = 'status inactive';
+                return;
+            }
+            
+            const totalFlips = user.gameHistory.length + 1;
+            const luckyNumber = user.luckyNumber;
+            
+            if (totalFlips === luckyNumber) {
+                luckyStatus.textContent = '🍀 即将激活!';
+                luckyStatus.className = 'status active';
+            } else if (totalFlips > luckyNumber) {
+                luckyStatus.textContent = '已过期';
+                luckyStatus.className = 'status inactive';
+            } else {
+                luckyStatus.textContent = `还需 ${luckyNumber - totalFlips} 次`;
+                luckyStatus.className = 'status inactive';
+            }
+        }
+        
+        // 更新调试信息
+        function updateDebugInfo() {
+            const totalFlips = user.gameHistory.length;
+            const nextFlip = totalFlips + 1;
+            const luckyNumber = user.luckyNumber;
+            
+            debugInfo.innerHTML = `
+                <p><strong>当前幸运数字:</strong> ${luckyNumber}</p>
+                <p><strong>已玩游戏次数:</strong> ${totalFlips}</p>
+                <p><strong>下次掷硬币:</strong> 第${nextFlip}次</p>
+                <p><strong>是否触发幸运数字:</strong> ${nextFlip === luckyNumber ? '是' : '否'}</p>
+                <p><strong>游戏历史:</strong> ${user.gameHistory.map(g => g.result).join(', ') || '无'}</p>
+            `;
+        }
+        
+        // 初始化
+        function init() {
+            luckyNumberSelect.value = user.luckyNumber;
+            updateLuckyStatus();
+            updateDebugInfo();
+        }
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

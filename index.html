@@ -85,6 +85,22 @@
     <div class="container" id="gameContainer" style="display: none;">
         <div class="user-info">
             <span>欢迎, <strong id="currentUser"></strong>!</span>
+            <div class="lucky-number-section">
+                <label for="luckyNumber">🍀 幸运数字:</label>
+                <select id="luckyNumber" onchange="updateLuckyNumber()">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+                <span class="lucky-status" id="luckyStatus">未激活</span>
+            </div>
             <div class="user-actions">
                 <button class="sync-btn" onclick="syncData()" title="同步数据到云端">🔄 同步</button>
                 <button class="logout-btn" onclick="logout()">退出登录</button>
@@ -126,8 +142,25 @@
         </div>
         
         <!-- AI智能分析 -->
-        <div class="ai-analysis" id="aiAnalysis" style="display: none;">
+        <div class="ai-analysis" id="aiAnalysis">
             <h3>🤖 AI智能分析</h3>
+            
+            <!-- 模型选择器 -->
+            <div class="model-selector">
+                <label for="aiModelSelect">选择AI模型:</label>
+                <select id="aiModelSelect" onchange="changeAIModel()">
+                    <option value="smart">🧠 智能分析 (推荐)</option>
+                    <option value="statistical">📊 统计分析</option>
+                    <option value="pattern">🔍 模式识别</option>
+                    <option value="random">🎲 随机预测</option>
+                    <option value="trend">📈 趋势分析</option>
+                    <option value="transformers">🤖 Transformers.js</option>
+                </select>
+                <div class="model-description" id="modelDescription">
+                    <p>🧠 智能分析：结合多种算法进行综合分析，提供最准确的预测</p>
+                </div>
+            </div>
+            
             <div class="ai-controls">
                 <button class="ai-btn" onclick="analyzeGamePattern()" id="analyzeBtn">
                     🔍 分析游戏模式
@@ -137,6 +170,9 @@
                 </button>
                 <button class="ai-btn" onclick="getGameInsights()" id="insightsBtn">
                     💡 获取游戏洞察
+                </button>
+                <button class="ai-btn" onclick="analyzeLuckyPattern()" id="luckyBtn">
+                    🍀 分析幸运模式
                 </button>
             </div>
             <div class="ai-results" id="aiResults">
